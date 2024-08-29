@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller{
     public function register(Request $request){
@@ -90,6 +91,20 @@ class UserController extends Controller{
 
     public function fetch(Request $request){
         return ResponseFormatter::success($request->user(), 'User profile fetched successfully');
+    }
+
+    public function getUserByToken(Request $request){
+        $user = Auth::user();
+
+        if (!$user) {
+            return ResponseFormatter::error([
+                'message' => 'User not authenticated',
+            ],'Token not found', 404);
+        }
+
+        return ResponseFormatter::success([
+            'user' => $user,
+        ],'User obtained');
     }
 
     public function logout(Request $request){
