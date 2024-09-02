@@ -15,7 +15,6 @@ class Hotel extends Model
         'description',
         'location',
         'rating',
-        'price',
     ];
 
     public function gallery()
@@ -25,11 +24,16 @@ class Hotel extends Model
 
     public function facilities()
     {
-        return $this->belongsToMany(HotelFacility::class, 'hotel_facility_mappings', 'hotel_id', 'facility_id');
+        return $this->hasMany(HotelFacility::class, 'hotel_id', 'id');
     }
 
     public function reviews()
     {
         return $this->hasMany(HotelReview::class, 'hotel_id', 'id');
+    }
+
+    public function rooms()
+    {
+        return $this->hasMany(HotelRoom::class, 'hotel_id', 'id');
     }
 }

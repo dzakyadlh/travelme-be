@@ -13,6 +13,7 @@ class HotelReview extends Model
         'comment',
         'rating',
         'photoUrl',
+        'hotel_id',
         'user_id',
     ];
 

@@ -21,26 +21,25 @@ class HotelController extends Controller
             $max_price = $request->input('max_price');
 
             if ($id) {
-                $hotel = Hotel::with(['facilities', 'gallery', 'reviews'])->find($id);
+                $hotel = Hotel::with(['gallery', 'reviews'])->find($id);
 
                 if ($hotel) {
                     return ResponseFormatter::success(
                         $hotel,
                         'Hotel data fetched successfully'
                     );
+                } else {
+                    return ResponseFormatter::error(
+                        null,
+                        'Hotel not found',
+                        404
+                    );
                 }
-            } else {
-                return ResponseFormatter::error(
-                    null,
-                    'Hotel not found',
-                    404
-                );
             }
-
-            $hotel = Hotel::with(['facilities', 'gallery', 'reviews']);
+            $hotel = Hotel::with(['gallery', 'reviews']);
 
             if ($name) {
-                $hotel->where('name', 'like', '%', $name . '%');
+                $hotel->where('name', 'like', '%' . $name . '%');
             }
             if ($description) {
                 $hotel->where('description', 'like', '%' . $description . '%');
