@@ -36,4 +36,9 @@ class Hotel extends Model
     {
         return $this->hasMany(HotelRoom::class, 'hotel_id', 'id');
     }
+
+    public function wishlistedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'wishlist');
+    }
 }
